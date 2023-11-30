@@ -1,0 +1,21 @@
+.logo-icon {
+  width: 360px;
+}
+
+@media (max-width: 600px) {
+  .logo-icon {
+    width: 240px;
+  }
+}
+
+@media (max-width: 360px) {
+  .logo-icon {
+    width: 120px;
+  }
+}
+
+@media (max-width: 240px) {
+  .logo-icon {
+    width: 120px;
+  }
+}

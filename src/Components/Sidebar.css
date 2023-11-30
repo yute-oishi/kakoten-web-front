@@ -1,0 +1,25 @@
+.sideBar {
+  background: var(
+    --linear,
+    linear-gradient(50deg, #79bfd089 0%, #5bc5e010 100%)
+  );
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.open-button {
+  width: 45px;
+}
+
+@media (max-width: 1000px) {
+  .open-button {
+    width: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .open-button {
+    width: 30px;
+  }
+}
