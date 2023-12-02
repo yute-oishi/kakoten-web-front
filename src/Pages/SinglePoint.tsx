@@ -29,10 +29,8 @@ import { apiGet, getHeaders } from "@/modules/apiConnect";
 import Chart from "@/Components/Chart";
 import { elemEnToJp, elemlist } from "@/modules/climateUtils";
 import {
-  focusedButtonSx,
   getResponsiveFocusedButtonSx,
   getResponsiveTransparentButtonSx,
-  transparentButtonSx,
 } from "@/modules/styles";
 import crossIcon from "@/assets/cross.svg";
 import useMedia from "@/hooks/useMedia";

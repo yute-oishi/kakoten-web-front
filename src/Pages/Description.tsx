@@ -1,27 +1,19 @@
 import { Box, Button, Grid } from "@mui/material";
-import React, { useEffect } from "react";
 import "./Description.css";
 import { MainStartButtonSx } from "@/modules/styles";
 import { useRecoilState } from "recoil";
 import { isSidebarOpenState } from "@/modules/atoms";
-import { useInView } from "react-intersection-observer";
-import "animate.css";
 import FeedIn from "@/Components/FeedIn";
 
 const Description = () => {
   const [_, setSideBarIsOpen] = useRecoilState<boolean>(isSidebarOpenState);
-  const refs = Array(4)
-    .fill(undefined)
-    .map(() =>
-      useInView({
-        rootMargin: "-200px",
-      })
-    );
 
   return (
     <Box className="rounded-font" sx={{ px: 1 }}>
-      <h1>{"　"}過去の天気を</h1>
-      <h1>{"　　"}かんたんグラフ化</h1>
+      <Box sx={{ width: "95%" }}>
+        <h1>{"　"}過去の天気を</h1>
+        <h1>{"　　"}かんたんグラフ化</h1>
+      </Box>
       <Box className="examples">
         <Box sx={{ color: "black", fontWeight: "bold" }}>
           完全無料で過去の気候データを調べるサービスです。
@@ -50,11 +42,11 @@ const Description = () => {
 
         <Grid item xs={12} lg={6}>
           <FeedIn>
-            <h2>全国約1200地点の中から検索機能でかんたんに探せる</h2>
+            <h2>全国約1200地点から履歴機能や検索機能でかんたんに探せる</h2>
             <img width={"100%"} src="search.png" />
           </FeedIn>
         </Grid>
-        <Grid item ref={refs[3].ref} xs={12} lg={6}>
+        <Grid item xs={12} lg={6}>
           <FeedIn>
             <Box
               sx={{
@@ -73,7 +65,7 @@ const Description = () => {
         </Grid>
       </Grid>
       <FeedIn marginRoot="0px">
-        <Box sx={{ display: "flex", justifyContent: "center", m: 5 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", my: 5 }}>
           <Button
             onClick={() => {
               setSideBarIsOpen(true);

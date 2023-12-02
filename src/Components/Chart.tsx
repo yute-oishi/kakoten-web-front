@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import {
-  LineChart,
   Line,
   CartesianGrid,
   XAxis,

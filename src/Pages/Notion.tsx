@@ -4,7 +4,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { Page } from "../modules/types";
 import { pageState } from "@/modules/atoms";
-import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import { focusedButtonSx } from "@/modules/styles";
 
 const Notion = () => {
@@ -78,6 +78,11 @@ const Notion = () => {
             <li>損害について</li>
             <Box sx={{ mb: 2 }}>
               本サービスのデータ提供により生じた損害はデータの整合性の有無にかかわらず保障できません。
+            </Box>
+            <li>履歴機能</li>
+            <Box sx={{ mb: 2 }}>
+              観測地点を選択する際の履歴選択は、ブラウザのキャッシュ機能を使用しています。
+              キャッシュを無効・削除した場合は正常に機能しないことがあります。
             </Box>
             <li>データ更新のタイミング</li>
             <Box sx={{ mb: 2 }}>
