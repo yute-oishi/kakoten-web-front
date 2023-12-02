@@ -22,8 +22,6 @@ export const focusedButtonSx: SxProps<Theme> = {
   },
 };
 
-export const normalButtonSx: SxProps<Theme> = { m: 0.5, height: 30, px: 1.6 };
-
 export const transparentButtonSx: SxProps<Theme> = {
   ...focusedButtonSx,
   color: "#555555",
@@ -33,6 +31,45 @@ export const transparentButtonSx: SxProps<Theme> = {
   },
   "&:active": {
     backgroundColor: "#bac4e3",
+  },
+};
+
+export const getResponsiveFocusedButtonSx = (isSmall: boolean) => {
+  return { ...focusedButtonSx, fontSize: isSmall ? 13 : 14, px: 0.5, m: 0.2 };
+};
+
+export const getResponsiveTransparentButtonSx = (isSmall: boolean) => {
+  return {
+    ...transparentButtonSx,
+    fontSize: isSmall ? 13 : 14,
+    px: 0.5,
+    m: 0.2,
+  };
+};
+
+export const normalButtonSx: SxProps<Theme> = { m: 0.5, height: 30, px: 1.6 };
+
+export const MainStartButtonSx: SxProps<Theme> = {
+  textTransform: "none",
+  borderRadius: 10,
+  px: 1.5,
+  m: 0.5,
+  width: "90%",
+  maxWidth: "500px",
+  height: 50,
+  color: "#FFFFFF",
+  backgroundColor: "#446de3",
+  border: "1px solid #377ce4",
+  "&:hover": {
+    backgroundColor: "#4484e4",
+  },
+  "&:active": {
+    backgroundColor: "#377ce4",
+  },
+  ":disabled": {
+    border: "1px solid #BCBCBC",
+    backgroundColor: "#CDCDCD",
+    color: "#999999",
   },
 };
 

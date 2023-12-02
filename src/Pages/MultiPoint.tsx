@@ -33,7 +33,12 @@ import {
 import { apiGet, getHeaders } from "@/modules/apiConnect";
 import Chart from "@/Components/Chart";
 import { elemEnToJp, elemlist } from "@/modules/climateUtils";
-import { focusedButtonSx, transparentButtonSx } from "@/modules/styles";
+import {
+  focusedButtonSx,
+  getResponsiveFocusedButtonSx,
+  getResponsiveTransparentButtonSx,
+  transparentButtonSx,
+} from "@/modules/styles";
 import crossIcon from "@/assets/cross.svg";
 import useMedia from "@/hooks/useMedia";
 import CustomTooltip from "@/Components/CustomTooltip";
@@ -350,12 +355,19 @@ const MultiPoint = () => {
         leftLabel={elemEnToJp[leftElem]}
         rightLabel={elemEnToJp[rightElem]}
       />
-      <Grid container sx={{ justifyContent: "space-between", p: 3 }}>
-        <Grid item xs={5}>
+      <Grid
+        container
+        sx={{ justifyContent: "space-between", p: isSmallScreen ? 1 : 3 }}
+      >
+        <Grid item xs={5.5}>
           {elemlist.map((elem) => (
             <Button
               key={elem.jp}
-              sx={elem.en === leftElem ? focusedButtonSx : transparentButtonSx}
+              sx={
+                elem.en === leftElem
+                  ? getResponsiveFocusedButtonSx(isSmallScreen)
+                  : getResponsiveTransparentButtonSx(isSmallScreen)
+              }
               disabled={
                 elems.includes(elem.en) && elem.en !== rightElem ? false : true
               }
@@ -367,11 +379,15 @@ const MultiPoint = () => {
             </Button>
           ))}
         </Grid>
-        <Grid item xs={5} sx={{ justifyContent: "flex-end" }}>
+        <Grid item xs={5.5} sx={{ justifyContent: "flex-end" }}>
           {elemlist.map((elem) => (
             <Button
               key={elem.en}
-              sx={elem.en === rightElem ? focusedButtonSx : transparentButtonSx}
+              sx={
+                elem.en === rightElem
+                  ? getResponsiveFocusedButtonSx(isSmallScreen)
+                  : getResponsiveTransparentButtonSx(isSmallScreen)
+              }
               disabled={
                 elems.includes(elem.en) && elem.en !== leftElem ? false : true
               }

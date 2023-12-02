@@ -2,6 +2,11 @@
 import { atom } from "recoil";
 import { Page, Obs, ObsForDataState } from "@/modules/types";
 
+export const isSidebarOpenState = atom<boolean>({
+  key: "isSideBarOpen",
+  default: false,
+});
+
 export const obsListState = atom<{ [key: string]: Obs }>({
   key: "obsList",
   default: {},

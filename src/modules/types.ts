@@ -6,7 +6,7 @@ export interface Obs {
   obsCode: string;
 }
 
-export type Page = "main" | "single" | "multi";
+export type Page = "main" | "single" | "multi" | "notion";
 
 export interface EachHourData {
   time: string;

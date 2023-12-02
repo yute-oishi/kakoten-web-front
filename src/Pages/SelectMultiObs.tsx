@@ -235,23 +235,46 @@ const SelectMultiObs = ({
           {Object.keys(filteredObs).map((pref) => (
             <Box key={pref}>
               <Box>{pref}</Box>
-              {filteredObs[pref].map((obs) =>
-                Object.entries(obs).map(([key, value]) => (
-                  <Button
-                    key={key}
-                    sx={
-                      selectedObsCodes.includes(value.obsCode)
-                        ? focusedButtonSx
-                        : normalButtonSx
-                    }
-                    onClick={() => {
-                      handleClickObs(value);
-                    }}
-                  >
-                    {getElemType(value.elems)} {value.kjName}
-                  </Button>
-                ))
-              )}
+              <Grid container>
+                {filteredObs[pref].map((obs) =>
+                  Object.entries(obs).map(([key, value]) => (
+                    <Box key={key}>
+                      <Button
+                        sx={
+                          selectedObsCodes.includes(value.obsCode)
+                            ? focusedButtonSx
+                            : normalButtonSx
+                        }
+                        onClick={() => {
+                          handleClickObs(value);
+                        }}
+                      >
+                        {getElemType(value.elems)} {value.kjName}
+                      </Button>
+                      {selectedObsCodes.includes(value.obsCode) && (
+                        <IconButton
+                          sx={{
+                            position: "relative",
+                            left: "-12px",
+                            top: "-2px",
+                            width: "10px",
+                            height: "10px",
+                          }}
+                          onClick={() => {
+                            setObss(
+                              obss.filter(
+                                (obs) => obs.obsCode !== value.obsCode
+                              )
+                            );
+                          }}
+                        >
+                          <img src={crossIcon} />
+                        </IconButton>
+                      )}
+                    </Box>
+                  ))
+                )}
+              </Grid>
             </Box>
           ))}
         </Grid>
@@ -266,35 +289,58 @@ const SelectMultiObs = ({
           <Button onClick={() => setSelectedPref("")}>{"< 戻る"}</Button>
           <Box sx={{ mt: 2, mr: 10 }}>{selectedPref}</Box>
         </Box>
-        <Grid
+        <Box
           sx={{
             overflowY: "auto",
             height: 310,
             m: 1,
           }}
         >
-          {Object.keys(obsList)
-            .filter(
-              (key) =>
-                prefCode[selectedPref][0] <= parseInt(key.slice(0, 2)) &&
-                prefCode[selectedPref][1] >= parseInt(key.slice(0, 2))
-            )
-            .map((key) => (
-              <Button
-                key={key}
-                sx={
-                  selectedObsCodes.includes(obsList[key].obsCode)
-                    ? focusedButtonSx
-                    : normalButtonSx
-                }
-                onClick={() => {
-                  handleClickObs(obsList[key]);
-                }}
-              >
-                {getElemType(obsList[key].elems)} {obsList[key].kjName}
-              </Button>
-            ))}
-        </Grid>
+          <Grid container>
+            {Object.keys(obsList)
+              .filter(
+                (key) =>
+                  prefCode[selectedPref][0] <= parseInt(key.slice(0, 2)) &&
+                  prefCode[selectedPref][1] >= parseInt(key.slice(0, 2))
+              )
+              .map((key) => (
+                <Box key={key}>
+                  <Button
+                    sx={
+                      selectedObsCodes.includes(obsList[key].obsCode)
+                        ? focusedButtonSx
+                        : normalButtonSx
+                    }
+                    onClick={() => {
+                      handleClickObs(obsList[key]);
+                    }}
+                  >
+                    {getElemType(obsList[key].elems)} {obsList[key].kjName}
+                  </Button>
+                  {selectedObsCodes.includes(obsList[key].obsCode) && (
+                    <IconButton
+                      sx={{
+                        position: "relative",
+                        left: "-15px",
+                        top: "-12px",
+                        width: "10px",
+                        height: "10px",
+                      }}
+                      onClick={() => {
+                        setObss(
+                          obss.filter(
+                            (obs) => obs.obsCode !== obsList[key].obsCode
+                          )
+                        );
+                      }}
+                    >
+                      <img src={crossIcon} />
+                    </IconButton>
+                  )}
+                </Box>
+              ))}
+          </Grid>
+        </Box>
       </>
     );
   };
@@ -308,37 +354,77 @@ const SelectMultiObs = ({
         }}
       >
         <Box sx={{ mt: 2 }}>・ 主要観測所</Box>
-        {Object.entries(ObsCodeMain).map(([key, value]) => (
-          <Button
-            key={key}
-            sx={
-              selectedObsCodes.includes(value.toString())
-                ? focusedButtonSx
-                : normalButtonSx
-            }
-            onClick={() => {
-              handleClickObs(obsList[value.toString()]);
-            }}
-          >
-            A {key}
-          </Button>
-        ))}
+        <Grid container>
+          {Object.entries(ObsCodeMain).map(([key, value]) => (
+            <Box key={key}>
+              <Button
+                sx={
+                  selectedObsCodes.includes(value.toString())
+                    ? focusedButtonSx
+                    : normalButtonSx
+                }
+                onClick={() => {
+                  handleClickObs(obsList[value.toString()]);
+                }}
+              >
+                A {key}
+              </Button>
+              {selectedObsCodes.includes(value.toString()) && (
+                <IconButton
+                  sx={{
+                    position: "relative",
+                    left: "-15px",
+                    top: "-12px",
+                    width: "10px",
+                    height: "10px",
+                  }}
+                  onClick={() => {
+                    setObss(
+                      obss.filter((obs) => obs.obsCode !== value.toString())
+                    );
+                  }}
+                >
+                  <img src={crossIcon} />
+                </IconButton>
+              )}
+            </Box>
+          ))}
+        </Grid>
         <Box sx={{ mt: 0.5 }}>・ 履歴</Box>
-        {history.map((his, index) => (
-          <Button
-            key={index}
-            sx={
-              selectedObsCodes.includes(his.obsCode)
-                ? focusedButtonSx
-                : normalButtonSx
-            }
-            onClick={() => {
-              handleClickObs(his);
-            }}
-          >
-            {his.kjName}
-          </Button>
-        ))}
+        <Grid container>
+          {history.map((his, index) => (
+            <Box key={index}>
+              <Button
+                sx={
+                  selectedObsCodes.includes(his.obsCode)
+                    ? focusedButtonSx
+                    : normalButtonSx
+                }
+                onClick={() => {
+                  handleClickObs(his);
+                }}
+              >
+                {his.kjName}
+              </Button>
+              {selectedObsCodes.includes(his.obsCode) && (
+                <IconButton
+                  sx={{
+                    position: "relative",
+                    left: "-15px",
+                    top: "-12px",
+                    width: "10px",
+                    height: "10px",
+                  }}
+                  onClick={() => {
+                    setObss(obss.filter((obs) => obs.obsCode !== his.obsCode));
+                  }}
+                >
+                  <img src={crossIcon} />
+                </IconButton>
+              )}
+            </Box>
+          ))}
+        </Grid>
       </Box>
     );
   };

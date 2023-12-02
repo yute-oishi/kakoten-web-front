@@ -1,0 +1,68 @@
+.rounded-font {
+  font-family: "M PLUS Rounded 1c";
+}
+
+h1 {
+  font-size: 60px;
+  transform: skewX(-15deg);
+  color: #555555;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 800px) {
+  h1 {
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 850px) {
+  h1 {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 32px;
+  }
+}
+
+h2 {
+  font-weight: 500;
+  font-size: 28px;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-width: 850px) {
+  h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+.examples {
+  font-weight: 500;
+  font-size: 24px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #666666;
+}
+
+@media (max-width: 850px) {
+  .examples {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .examples {
+    font-size: 14px;
+  }
+}

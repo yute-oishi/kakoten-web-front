@@ -1,5 +1,5 @@
 import logoIcon from "@/assets/logo.svg";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import Sidebar from "../Components/Sidebar";
 import { Obs } from "@/modules/types";
 import { useRecoilState } from "recoil";
@@ -12,6 +12,7 @@ import React from "react";
 import SinglePoint from "./SinglePoint";
 import MultiPoint from "./MultiPoint";
 import "./MainPage.css";
+import Notion from "./Notion";
 
 const MainPage = () => {
   const [_, setObsList] = useRecoilState<{ [key: string]: Obs }>(obsListState);
@@ -75,17 +76,36 @@ const MainPage = () => {
 
   return (
     <Box>
-      <Sidebar />
-      <Box sx={{ textAlign: "right", mt: 2, mr: 4 }}>
-        <img src={logoIcon} className="logo-icon" />
+      <Box sx={{ minHeight: "100vh" }}>
+        <Sidebar />
+        <Box sx={{ textAlign: "right", mt: 2, mr: 4 }}>
+          <img src={logoIcon} className="logo-icon" />
+        </Box>
+        {page === "main" ? (
+          <Description />
+        ) : page === "single" ? (
+          <SinglePoint />
+        ) : page === "multi" ? (
+          <MultiPoint />
+        ) : page === "notion" ? (
+          <Notion />
+        ) : null}
       </Box>
-      {page === "main" ? (
-        <Description />
-      ) : page === "single" ? (
-        <SinglePoint />
-      ) : page === "multi" ? (
-        <MultiPoint />
-      ) : null}
+      <Divider sx={{ mt: 2 }} />
+      <Box
+        sx={{
+          backgroundColor: "#EEEEEE",
+          py: 1,
+          px: 3,
+          bottom: 0,
+        }}
+      >
+        © 2023
+        {new Date().getFullYear() > 2023
+          ? "-" + new Date().getFullYear()
+          : null}{" "}
+        kako-ten.com All rights reserved
+      </Box>
     </Box>
   );
 };

@@ -21,13 +21,19 @@ import "./Sidebar.css";
 import SelectObs from "@/Pages/SelectObs";
 import { useRecoilState } from "recoil";
 import { Obs, Page } from "../modules/types";
-import { multiPageState, pageState, singlePageState } from "@/modules/atoms";
+import {
+  multiPageState,
+  pageState,
+  singlePageState,
+  isSidebarOpenState,
+} from "@/modules/atoms";
 import SelectMultiObs from "@/Pages/SelectMultiObs";
 import useMedia from "@/hooks/useMedia";
 import { getYesterday } from "@/modules/dateUtils";
 
 function Sidebar() {
-  const [sideBarIsOpen, setSideBarIsOpen] = React.useState<boolean>(false);
+  const [isSideBarOpen, setIsSideBarOpen] =
+    useRecoilState<boolean>(isSidebarOpenState);
   const [_, setPage] = useRecoilState<Page>(pageState);
   const [__, setSinglePageObs] = useRecoilState<Obs>(singlePageState);
   const [___, setMultiPageObs] = useRecoilState<[Obs, Date][]>(multiPageState);
@@ -46,7 +52,7 @@ function Sidebar() {
         return;
       }
 
-      setSideBarIsOpen(open);
+      setIsSideBarOpen(open);
     };
 
   const list = () => (
@@ -70,7 +76,7 @@ function Sidebar() {
         <ListItem sx={{ mb: 3 }} disablePadding>
           <ListItemButton
             onClick={() => {
-              setSideBarIsOpen(false);
+              setIsSideBarOpen(false);
               setPage("main");
             }}
           >
@@ -123,7 +129,12 @@ function Sidebar() {
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton
+            onClick={() => {
+              setIsSideBarOpen(false);
+              setPage("notion");
+            }}
+          >
             <ListItemIcon>
               <img style={{ width: isSmallScreen ? 25 : 35 }} src={alertIcon} />
             </ListItemIcon>
@@ -146,7 +157,7 @@ function Sidebar() {
         setOpen={setSingleModalOpen}
         setObs={(obs: Obs) => {
           setSinglePageObs(obs);
-          setSideBarIsOpen(false);
+          setIsSideBarOpen(false);
           setSingleModalOpen(false);
           setPage("single");
         }}
@@ -156,21 +167,21 @@ function Sidebar() {
         setOpen={setMultiModalOpen}
         handleFinish={(obss: Obs[]) => {
           setMultiPageObs(obss.map((obs) => [obs, getYesterday()]));
-          setSideBarIsOpen(false);
+          setIsSideBarOpen(false);
           setMultiModalOpen(false);
           setPage("multi");
         }}
       />
       <React.Fragment>
         <IconButton
-          sx={{ position: "fixed", top: 12, left: 12 }}
+          sx={{ position: "fixed", top: 12, left: 12, zIndex: 10 }}
           onClick={toggleDrawer(true)}
         >
           <img className="open-button" src={rightIcon} />
         </IconButton>
         <SwipeableDrawer
           anchor="left"
-          open={sideBarIsOpen}
+          open={isSideBarOpen}
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
         >

@@ -106,9 +106,6 @@ const CustomTooltip = ({
   return null;
 };
 
-// 表示、非表示時のそれぞれの凡例の文字色（非表示時はグレー）
-const displayedColors = ["#BBBBBB", "black"];
-
 /**
  * グラフ描画コンポーネント
  * @param data jsonデータ
@@ -158,9 +155,7 @@ const Chart = ({
               sx={{
                 mx: "10px",
                 fontSize: "14px",
-                color: disabledKeys.has(entry.value)
-                  ? "#BBBBBB"
-                  : buttonColors[index],
+                color: disabledKeys.has(entry.value) ? "#BBBBBB" : entry.color,
                 cursor: "pointer",
               }}
               // 凡例クリック時の処理（表示非表示切替）
@@ -180,11 +175,7 @@ const Chart = ({
                   cx={5}
                   cy={5}
                   r={5}
-                  fill={
-                    disabledKeys.has(entry.value)
-                      ? "#BBBBBB"
-                      : buttonColors[index]
-                  }
+                  fill={disabledKeys.has(entry.value) ? "#BBBBBB" : entry.color}
                 />
               </svg>
               {entry.value}
