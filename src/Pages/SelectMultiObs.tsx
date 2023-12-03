@@ -49,6 +49,15 @@ const SelectMultiObs = ({
   const [textFieldKey, setTextFieldKey] = React.useState<number>(0);
   const [obss, setObss] = React.useState<Obs[]>([]);
   const [selectedObsCodes, setSelectedObsCodes] = React.useState<string[]>([]);
+  const [tooltipOpen, setTooltipOpen] = React.useState<boolean>(false);
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
 
   // レスポンシブ対応
   const theme = useTheme();
@@ -255,8 +264,8 @@ const SelectMultiObs = ({
                         <IconButton
                           sx={{
                             position: "relative",
-                            left: "-12px",
-                            top: "-2px",
+                            left: "-15px",
+                            top: "-12px",
                             width: "10px",
                             height: "10px",
                           }}
@@ -296,7 +305,7 @@ const SelectMultiObs = ({
             m: 1,
           }}
         >
-          <Grid container>
+          <Grid container sx={{ pt: 1 }}>
             {Object.keys(obsList)
               .filter(
                 (key) =>
@@ -453,6 +462,8 @@ const SelectMultiObs = ({
           />
         </Tabs>
         <CustomTooltip
+          onClose={handleTooltipClose}
+          open={tooltipOpen}
           placement="top-end"
           arrow={false}
           title={
@@ -475,7 +486,7 @@ const SelectMultiObs = ({
               zIndex: 2,
             }}
           >
-            <img src={infoIcon} />
+            <img onClick={handleTooltipOpen} src={infoIcon} />
           </Box>
         </CustomTooltip>
         {value === 0

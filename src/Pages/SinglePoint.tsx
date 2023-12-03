@@ -80,8 +80,8 @@ const SinglePoint = () => {
   React.useEffect(() => {
     const getData = async (query: string) => {
       const res = await apiGet(
-        "https://fnjkr38lp2.execute-api.ap-northeast-1.amazonaws.com/prod/past?obsDates=" +
-          query,
+        "https://kako-ten.com/prod/past?obsDates=" + query,
+        // "https://d3btn854vtgb31.cloudfront.net/prod/past?obsDates=" + query,
         getHeaders("u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm")
       );
       if (res.statusCode === 200 && "body" in res && res.body) {
@@ -232,7 +232,10 @@ const SinglePoint = () => {
                 moveAllDates(-1);
               }}
             >
-              <img src={leftArrowIcon} />
+              <img
+                style={{ position: "relative", top: "1px" }}
+                src={leftArrowIcon}
+              />
             </IconButton>
           </span>
         </CustomTooltip>
@@ -247,7 +250,10 @@ const SinglePoint = () => {
                 moveAllDates(1);
               }}
             >
-              <img src={rightArrowIcon} />
+              <img
+                style={{ position: "relative", top: "1px" }}
+                src={rightArrowIcon}
+              />
             </IconButton>
           </span>
         </CustomTooltip>
