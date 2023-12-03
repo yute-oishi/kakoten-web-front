@@ -6,6 +6,10 @@ import { Page } from "../modules/types";
 import { pageState } from "@/modules/atoms";
 import ReCAPTCHA from "react-google-recaptcha";
 import { focusedButtonSx } from "@/modules/styles";
+import leftArrowDoubleIcon from "@/assets/left-arrow-double.svg";
+import rightArrowDoubleIcon from "@/assets/right-arrow-double.svg";
+import leftArrowIcon from "@/assets/left_arrow.svg";
+import rightArrowIcon from "@/assets/right_arrow.svg";
 
 const Notion = () => {
   const isSmallScreen = useMedia("(max-width: 600px)");
@@ -24,7 +28,7 @@ const Notion = () => {
     setErrors([]);
   }, [page]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrors([]);
     const errors = [];
     const emailRegex = /^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/;
@@ -50,6 +54,22 @@ const Notion = () => {
       errors.push("お問い合わせ内容は300文字以内で記入して下さい。");
     }
     if (errors.length === 0) {
+      const url = "https://kako-ten.com/prod/email";
+      const data = {
+        name: name,
+        email: email,
+        message: message,
+      };
+      const headers = new Headers();
+      headers.append("x-api-key", "u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm");
+      headers.append("Content-Type", "application/json");
+      await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: headers,
+        body: JSON.stringify(data),
+      });
+
       setErrors(["お問い合わせを送信しました。"]);
     } else {
       setErrors(errors);
@@ -84,9 +104,43 @@ const Notion = () => {
               観測地点を選択する際の履歴選択は、ブラウザのキャッシュ機能を使用しています。
               キャッシュを無効・削除した場合は正常に機能しないことがあります。
             </Box>
+            <li>データ範囲について</li>
+            <Box sx={{ mb: 2 }}>
+              気象データは、本サービスがデータの取り込みを始めた2023年11月15日のデータからご利用いただけます。
+            </Box>
             <li>データ更新のタイミング</li>
             <Box sx={{ mb: 2 }}>
               毎日、午前4時～6時頃に全国の1日前の気象データが取込まれ、閲覧可能になります。
+            </Box>
+            <li>細かい利用方法について</li>
+            <Box sx={{ mb: 2 }}>
+              ・グラフの凡例ボタンを押すことで、その凡例データの表示・非表示を切り替えることができます。
+              <br />
+              ・グラフ凡例の上にある
+              <img
+                style={{ position: "relative", top: "8px" }}
+                src={leftArrowDoubleIcon}
+              />
+              <img
+                style={{ position: "relative", top: "6px" }}
+                src={leftArrowIcon}
+              />
+              <img
+                style={{ position: "relative", top: "6px" }}
+                src={rightArrowIcon}
+              />
+              <img
+                style={{ position: "relative", top: "8px" }}
+                src={rightArrowDoubleIcon}
+              />
+              のボタンはそれぞれ、まとめて4日前に戻る、1日前に戻る、1日後に進む、4日後に進む、操作ができます。
+              <br />
+              ・観測所選択画面の、観測所ボタンの左側のアルファベットは、以下の通りの観測項目を有していることを表しています。（稀に例外もあります。）
+              <br /> 　A：降水量, 温度, 風速, 日照時間, 湿度, 気圧
+              <br /> 　B：降水量, 温度, 風速, 日照時間, 湿度
+              <br /> 　C： 降水量, 温度, 風速, 日照時間
+              <br /> 　D：降水量, 温度, 風速 E: 降水量のみ
+              <br /> 　E：降水量のみ
             </Box>
             <li>全体のアクセス制限</li>
             <Box sx={{ mb: 2 }}>
@@ -143,14 +197,6 @@ const Notion = () => {
                 {e}
               </Box>
             ))}
-            <ReCAPTCHA
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-              onChange={(e: string | null) => {
-                if (e !== null) {
-                  setIsVerified(true);
-                }
-              }}
-            />
           </Box>
           <Button
             disabled={!isVerified}
@@ -162,6 +208,16 @@ const Notion = () => {
             送信
           </Button>
         </Box>
+        <ReCAPTCHA
+          sitekey="6Lc5ISMpAAAAAPdOh0hDAFw4g-nzRZXEOwEdzd1u"
+          onChange={(e: string | null) => {
+            if (e !== null) {
+              setIsVerified(true);
+            } else {
+              setIsVerified(false);
+            }
+          }}
+        />
       </Box>
     </Box>
   );

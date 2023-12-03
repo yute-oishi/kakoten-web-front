@@ -28,6 +28,12 @@ h1 {
   }
 }
 
+@media (max-width: 450px) {
+  h1 {
+    font-size: 28px;
+  }
+}
+
 h2 {
   font-weight: 500;
   font-size: 28px;
