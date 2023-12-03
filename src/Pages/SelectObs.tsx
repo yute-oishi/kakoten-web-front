@@ -38,6 +38,15 @@ const SelectObs = ({
   const [selectedPref, setSelectedPref] = React.useState<string>("");
   const [value, setValue] = React.useState(0);
   const [textFieldKey, setTextFieldKey] = React.useState<number>(0);
+  const [tooltipOpen, setTooltipOpen] = React.useState<boolean>(false);
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
 
   // レスポンシブ対応
   const theme = useTheme();
@@ -323,6 +332,8 @@ const SelectObs = ({
           />
         </Tabs>
         <CustomTooltip
+          onClose={handleTooltipClose}
+          open={tooltipOpen}
           placement="top-end"
           arrow={false}
           title={
@@ -345,7 +356,7 @@ const SelectObs = ({
               zIndex: 2,
             }}
           >
-            <img src={infoIcon} />
+            <img onClick={handleTooltipOpen} src={infoIcon} />
           </Box>
         </CustomTooltip>
 
