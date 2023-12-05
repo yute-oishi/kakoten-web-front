@@ -198,7 +198,7 @@ const Notion = () => {
           </Button>
         </Box>
         <ReCAPTCHA
-          sitekey="6Lc5ISMpAAAAAPdOh0hDAFw4g-nzRZXEOwEdzd1u"
+          sitekey={import.meta.env.VITE_RRCAPTCHA_SITEKEY}
           onChange={(e: string | null) => {
             if (e !== null) {
               setIsVerified(true);

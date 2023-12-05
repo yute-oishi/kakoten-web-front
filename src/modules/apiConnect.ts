@@ -28,15 +28,6 @@ export const apiGet = async (
 };
 
 /**
- * ヘッダを設定する
- */
-export const getHeaders = (token: string): Headers => {
-  const headers = new Headers();
-  headers.append("x-api-key", token);
-  return headers;
-};
-
-/**
  * 全観測地リストを取得し、Recoil状態にセットする。
  */
 export const getObsList = async (
@@ -44,14 +35,11 @@ export const getObsList = async (
     [key: string]: Obs;
   }>
 ) => {
-  const response = await fetch(
-    "https://www.jma.go.jp/bosai/amedas/const/amedastable.json",
-    {
-      mode: "cors",
-      method: "GET",
-      headers: new Headers(),
-    }
-  );
+  const response = await fetch(import.meta.env.VITE_AMEDAS_OBSLIST_URL, {
+    mode: "cors",
+    method: "GET",
+    headers: new Headers(),
+  });
   const res = { body: await response.json() };
   if (!("body" in res)) {
     return;
@@ -89,9 +77,11 @@ export const getObsList = async (
 };
 
 export const getClimateData = async (query: string) => {
+  const headers = new Headers();
+  headers.append("x-api-key", import.meta.env.VITE_BACKEND_API_KEY);
   const res = await apiGet(
-    "https://kako-ten.com/prod/past?obsDates=" + query,
-    getHeaders("u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm")
+    import.meta.env.VITE_BACKEND_BASE_URL + "/past?obsDates=" + query,
+    headers
   );
   if (res.statusCode === 200 && "body" in res && res.body) {
     const newData: ObsForDataState = {};
@@ -110,14 +100,14 @@ export const sendEmail = async (
   email: string,
   message: string
 ) => {
-  const url = "https://kako-ten.com/prod/email";
+  const url = import.meta.env.VITE_BACKEND_BASE_URL + "/email";
   const data = {
     name: name,
     email: email,
     message: message,
   };
   const headers = new Headers();
-  headers.append("x-api-key", "u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm");
+  headers.append("x-api-key", import.meta.env.VITE_BACKEND_API_KEY);
   headers.append("Content-Type", "application/json");
   await fetch(url, {
     method: "POST",
