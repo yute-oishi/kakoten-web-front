@@ -7,71 +7,37 @@ import { historyState, obsListState } from "@/modules/atoms";
 import { Page } from "../modules/types";
 import { pageState } from "@/modules/atoms";
 import Description from "./Description";
-import { codePref } from "../modules/pref";
 import React from "react";
-import SinglePoint from "./SinglePoint";
-import MultiPoint from "./MultiPoint";
+import SinglePointGraph from "./SinglePointGraph";
+import MultiPointGraph from "./MultiPointGraph";
 import "./MainPage.css";
 import Notion from "./Notion";
+import { getObsList } from "@/modules/apiConnect";
 
+/**
+ * ページのエントリポイント（各ページを動的切替）
+ */
 const MainPage = () => {
   const [_, setObsList] = useRecoilState<{ [key: string]: Obs }>(obsListState);
   const [__, setHistory] = useRecoilState<Obs[]>(historyState);
   const [page] = useRecoilState<Page>(pageState);
 
   React.useEffect(() => {
+    // ローカルストレージからユーザの観測値選択履歴を取得
     const obsHistoryString = localStorage.getItem("obsHistory");
     if (obsHistoryString) {
       const obsHistory = JSON.parse(obsHistoryString);
       setHistory(obsHistory);
     }
-  }, []);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        "https://www.jma.go.jp/bosai/amedas/const/amedastable.json",
-        {
-          mode: "cors",
-          method: "GET",
-          headers: new Headers(),
-        }
-      );
-      const res = { body: await response.json() };
-      if (!("body" in res)) {
-        return;
-      } else {
-        const obs = res.body;
-        const keeps: (keyof Obs)[] = ["type", "elems", "kjName"];
-        const result: { [key: string]: Obs } = {};
-        Object.keys(obs).forEach((key) => {
-          if (obs[key] && typeof obs[key] === "object") {
-            result[key] = {
-              type: "",
-              elems: "",
-              kjName: "",
-              pref: "",
-              obsCode: key,
-            };
-            keeps.forEach((subKey) => {
-              if (obs[key][subKey] !== undefined) {
-                result[key][subKey] = obs[key][subKey];
-              }
-              const prefCode = parseInt(key.slice(0, 2));
-              if (prefCode < 31) {
-                result[key]["pref"] = "北海道";
-              } else if (prefCode > 90) {
-                result[key]["pref"] = "沖縄";
-              } else {
-                result[key]["pref"] = codePref[prefCode.toString()];
-              }
-            });
-          }
-        });
-        setObsList(result);
-      }
-    };
-    fetchData();
+    // ローカルストレージから全観測地リストを取得
+    const obsListString = localStorage.getItem("obsList");
+    if (obsListString) {
+      const obsList = JSON.parse(obsListString);
+      setObsList(obsList);
+    } else {
+      // ローカルストレージに無い場合は新規取得
+      getObsList(setObsList);
+    }
   }, []);
 
   return (
@@ -84,9 +50,9 @@ const MainPage = () => {
         {page === "main" ? (
           <Description />
         ) : page === "single" ? (
-          <SinglePoint />
+          <SinglePointGraph />
         ) : page === "multi" ? (
-          <MultiPoint />
+          <MultiPointGraph />
         ) : page === "notion" ? (
           <Notion />
         ) : null}

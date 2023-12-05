@@ -10,7 +10,11 @@ import leftArrowDoubleIcon from "@/assets/left-arrow-double.svg";
 import rightArrowDoubleIcon from "@/assets/right-arrow-double.svg";
 import leftArrowIcon from "@/assets/left_arrow.svg";
 import rightArrowIcon from "@/assets/right_arrow.svg";
+import { sendEmail } from "@/modules/apiConnect";
 
+/**
+ * 注意事項画面
+ */
 const Notion = () => {
   const isSmallScreen = useMedia("(max-width: 600px)");
   const [name, setName] = React.useState<string>("");
@@ -28,6 +32,7 @@ const Notion = () => {
     setErrors([]);
   }, [page]);
 
+  // お問い合わせフォーム送信時の処理
   const handleSubmit = async () => {
     setErrors([]);
     const errors = [];
@@ -54,22 +59,7 @@ const Notion = () => {
       errors.push("お問い合わせ内容は300文字以内で記入して下さい。");
     }
     if (errors.length === 0) {
-      const url = "https://kako-ten.com/prod/email";
-      const data = {
-        name: name,
-        email: email,
-        message: message,
-      };
-      const headers = new Headers();
-      headers.append("x-api-key", "u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm");
-      headers.append("Content-Type", "application/json");
-      await fetch(url, {
-        method: "POST",
-        mode: "cors",
-        headers: headers,
-        body: JSON.stringify(data),
-      });
-
+      await sendEmail(name, email, message);
       setErrors(["お問い合わせを送信しました。"]);
     } else {
       setErrors(errors);
@@ -84,7 +74,6 @@ const Notion = () => {
             <li>サービス内容</li>
             <Box sx={{ mb: 2 }}>
               本サービスは全国各地点の過去のデータを閲覧し、複数の日付や地点と比較ができる完全無償のサービスです。
-              利用可能なデータは、本サービスがデータの取込みを開始した2023年11月15日からとなります。
             </Box>
             <li>商用利用の禁止</li>
             <Box sx={{ mb: 2 }}>

@@ -10,7 +10,6 @@ import DatePickerWithArrow from "@/Components/DatePickerWithArrows";
 import { Box, Button, Grid, IconButton } from "@mui/material";
 import {
   EachHourData,
-  FetchData,
   Obs,
   ObsForDataState,
   Page,
@@ -30,7 +29,7 @@ import {
   getObsCode,
   getYesterday,
 } from "@/modules/dateUtils";
-import { apiGet, getHeaders } from "@/modules/apiConnect";
+import { getClimateData } from "@/modules/apiConnect";
 import Chart from "@/Components/Chart";
 import { elemEnToJp, elemlist } from "@/modules/climateUtils";
 import {
@@ -40,9 +39,12 @@ import {
 import crossIcon from "@/assets/cross.svg";
 import useMedia from "@/hooks/useMedia";
 import CustomTooltip from "@/Components/CustomTooltip";
-import SelectObs from "./SelectObs";
+import SelectObsModal from "./SelectObsModal";
 
-const MultiPoint = () => {
+/**
+ * 複数地点比較のグラフ画面
+ */
+const MultiPointGraph = () => {
   const [obsList] = useRecoilState<{ [key: string]: Obs }>(obsListState);
   const [data, setData] = useRecoilState<ObsForDataState>(climateDataState);
   const [page] = useRecoilState<Page>(pageState);
@@ -62,6 +64,7 @@ const MultiPoint = () => {
     setSelectedObsCodes(obsDates.map((o) => o[0].obsCode));
   }, [obsDates]);
 
+  // ページ切替り時の初期化
   React.useEffect(() => {
     if (page !== "multi") {
       setObsDates([]);
@@ -70,6 +73,7 @@ const MultiPoint = () => {
     }
   }, [page]);
 
+  // 観測地点、日付が変更されたときのグラフデータ作成処理
   React.useEffect(() => {
     let graphData: EachHourData[] = getHoursJson();
     const newElems = new Set<string>();
@@ -94,38 +98,28 @@ const MultiPoint = () => {
     setChartData(graphData);
   }, [data, obsDates]);
 
-  React.useEffect(() => {
-    const getData = async (query: string) => {
-      const res = await apiGet(
-        "https://kako-ten.com/prod/past?obsDates=" + query,
-        getHeaders("u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm")
-      );
-      if (res.statusCode === 200 && "body" in res && res.body) {
-        const newData: ObsForDataState = {};
-        Object.values(res.body as { [key: string]: FetchData }).map(
-          (value: FetchData) => {
-            const newKey = value.ob + value.dt;
-            newData[newKey] = value.data;
-          }
-        );
-        setData({ ...data, ...newData });
-        setDatePickerDisabled(false);
-      }
-    };
+  // 気象データをAPIから取得
+  const setClimateData = async (query: string) => {
+    setDatePickerDisabled(true);
+    const newData = await getClimateData(query);
+    setData({ ...data, ...newData });
+    setDatePickerDisabled(false);
+  };
 
+  // 持っていない気象データをAPIから取得
+  React.useEffect(() => {
     let getDatalist: string = "";
     obsDates.map((obsDate) => {
       if (!(obsDate[0].obsCode + dateToString(obsDate[1]) in data)) {
         getDatalist += obsDate[0].obsCode + dateToString(obsDate[1]) + ",";
       }
     });
-
     if (getDatalist !== "") {
-      setDatePickerDisabled(true);
-      getData(getDatalist.slice(0, -1));
+      setClimateData(getDatalist.slice(0, -1));
     }
   }, [obsDates]);
 
+  // 全ての日付をまとめてn移動させる
   const moveAllDates = (n: number) => {
     const newObsDates: [Obs, Date][] = [];
     obsDates.map((obsDate) => {
@@ -136,6 +130,7 @@ const MultiPoint = () => {
     setObsDates(newObsDates);
   };
 
+  // 観測地点を追加する
   const addObs = (obs: Obs) => {
     if (obsDates.length === 4) {
       return;
@@ -154,7 +149,7 @@ const MultiPoint = () => {
         backgroundColor: "#EFEFEF",
       }}
     >
-      <SelectObs
+      <SelectObsModal
         open={singleModalOpen}
         setOpen={setSingleModalOpen}
         setObs={(obs: Obs) => {
@@ -411,4 +406,4 @@ const MultiPoint = () => {
   );
 };
 
-export default MultiPoint;
+export default MultiPointGraph;

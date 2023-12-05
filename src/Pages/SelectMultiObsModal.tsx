@@ -29,7 +29,10 @@ import {
   selectedObsSx,
 } from "@/modules/styles";
 
-const SelectMultiObs = ({
+/**
+ * 複数地点選択モーダル
+ */
+const SelectMultiObsModal = ({
   open,
   setOpen,
   handleFinish,
@@ -91,11 +94,13 @@ const SelectMultiObs = ({
           obs,
           ...newHistory.filter((his) => his.obsCode !== obs.obsCode),
         ];
+        // 履歴には無く、履歴制限がMAX18の場合
       } else if (history.length > 17) {
         newHistory = [
           obs,
           ...newHistory.filter((_, index) => index !== history.length - 1),
         ];
+        // 履歴には無く、履歴制限以下の場合
       } else {
         newHistory = [obs, ...newHistory];
       }
@@ -104,10 +109,12 @@ const SelectMultiObs = ({
     localStorage.setItem("obsHistory", JSON.stringify(newHistory));
   };
 
+  // 観測地点コードリストの更新
   React.useEffect(() => {
     setSelectedObsCodes(obss.map((o) => o.obsCode));
   }, [obss]);
 
+  // 観測地点クリック時の処理
   const handleClickObs = (obs: Obs) => {
     // 既に上限の場合
     if (obss.length === 4) {
@@ -117,6 +124,7 @@ const SelectMultiObs = ({
     setObss([...obss, obs]);
   };
 
+  // 決定ボタンクリック時の処理
   const handleClickDecide = () => {
     if (obss.length === 0) {
       return;
@@ -126,6 +134,7 @@ const SelectMultiObs = ({
     setInit();
   };
 
+  // 初期化
   const setInit = () => {
     setValue(0);
     setSearchText("");
@@ -133,6 +142,7 @@ const SelectMultiObs = ({
     setObss([]);
   };
 
+  // タブ切替操作時の処理
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     setTextFieldKey(textFieldKey + 1);
@@ -140,16 +150,20 @@ const SelectMultiObs = ({
     setSelectedPref("");
   };
 
+  // テキストボックス入力完了時の処理
   const handleBlur = (text: string) => {
     setSearchText(text);
   };
 
+  // テキストボックスでエンターキー押下時の処理
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
       handleBlur((event.target as HTMLInputElement).value);
     }
   };
+
+  // テキストボックスでの検索処理
   React.useEffect(() => {
     if (searchText === "") {
       setFilteredObs({});
@@ -171,6 +185,7 @@ const SelectMultiObs = ({
     setFilteredObs(filteredObs);
   }, [searchText]);
 
+  // 検索テキスト入力テキストボックス
   const searchTextField = () => {
     return (
       <TextField
@@ -189,6 +204,7 @@ const SelectMultiObs = ({
     );
   };
 
+  // 都道府県一覧カード
   const prefList = () => {
     return (
       <>
@@ -220,6 +236,7 @@ const SelectMultiObs = ({
     );
   };
 
+  // 検索テキストでのフィルタリングされた観測地点一覧カード
   const searchFilteredObs = () => {
     return (
       <>
@@ -291,6 +308,7 @@ const SelectMultiObs = ({
     );
   };
 
+  // 1都道府県の観測地点一覧カード
   const prefFilteredObs = () => {
     return (
       <>
@@ -354,6 +372,7 @@ const SelectMultiObs = ({
     );
   };
 
+  // 主要都市及び履歴の一覧カード
   const mainAndHistory = () => {
     return (
       <Box
@@ -536,4 +555,4 @@ const SelectMultiObs = ({
   );
 };
 
-export default SelectMultiObs;
+export default SelectMultiObsModal;

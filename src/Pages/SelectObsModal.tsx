@@ -20,7 +20,10 @@ import { ObsCodeMain, prefCode } from "../modules/pref";
 import { getElemType } from "@/modules/climateUtils";
 import CustomTooltip from "@/Components/CustomTooltip";
 
-const SelectObs = ({
+/**
+ * 1地点選択モーダル
+ */
+const SelectObsModal = ({
   open,
   setOpen,
   setObs,
@@ -93,18 +96,21 @@ const SelectObs = ({
     localStorage.setItem("obsHistory", JSON.stringify(newHistory));
   };
 
+  // 観測地点クリック時の処理
   const handleClick = (obs: Obs) => {
     setObs(obs);
     addHistory(obs);
     setInit();
   };
 
+  // 初期化
   const setInit = () => {
     setSearchText("");
     setSelectedPref("");
     setValue(0);
   };
 
+  // タブ切替操作時の処理
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     setTextFieldKey(textFieldKey + 1);
@@ -112,16 +118,20 @@ const SelectObs = ({
     setSelectedPref("");
   };
 
+  // テキストボックス入力完了時の処理
   const handleBlur = (text: string) => {
     setSearchText(text);
   };
 
+  // テキストボックスでエンターキー押下時の処理
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
       handleBlur((event.target as HTMLInputElement).value);
     }
   };
+
+  // テキストボックスでの検索処理
   React.useEffect(() => {
     if (searchText === "") {
       setFilteredObs({});
@@ -143,6 +153,7 @@ const SelectObs = ({
     setFilteredObs(filteredObs);
   }, [searchText]);
 
+  // 検索テキスト入力テキストボックス
   const searchTextField = () => {
     return (
       <TextField
@@ -161,6 +172,7 @@ const SelectObs = ({
     );
   };
 
+  // 都道府県一覧カード
   const prefList = () => {
     return (
       <>
@@ -192,6 +204,7 @@ const SelectObs = ({
     );
   };
 
+  // 検索テキストでのフィルタリングされた観測地点一覧カード
   const searchFilteredObs = () => {
     return (
       <>
@@ -236,6 +249,7 @@ const SelectObs = ({
     );
   };
 
+  // 1都道府県の観測地点一覧カード
   const prefFilteredObs = () => {
     return (
       <>
@@ -272,6 +286,7 @@ const SelectObs = ({
     );
   };
 
+  // 主要都市及び履歴の一覧カード
   const mainAndHistory = () => {
     return (
       <Box
@@ -372,4 +387,4 @@ const SelectObs = ({
   );
 };
 
-export default SelectObs;
+export default SelectObsModal;

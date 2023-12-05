@@ -1,6 +1,11 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
+/**
+ * 子コンポーネントをフェードインアニメーション化する
+ * @param marginRoot どれだけスクロールされるとフェードインするか
+ * @param children フェードイン化するコンポーネント
+ */
 const FeedIn = ({
   marginRoot = "-100px",
   children,

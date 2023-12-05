@@ -18,10 +18,21 @@ import {
 import { Payload as LegendPayload } from "recharts/types/component/DefaultLegendContent";
 import { Payload as TooltipPayload } from "recharts/types/component/DefaultTooltipContent";
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, SxProps, Theme } from "@mui/material";
 import { EachHourData } from "@/modules/types";
 import { buttonColors } from "@/modules/styles";
 import useMedia from "@/hooks/useMedia";
+
+export const bgTooltipSx: SxProps<Theme> = {
+  position: "relative",
+  left: "-30px",
+  fontSize: "13px",
+  backgroundColor: "#7F7F7F",
+  color: "white",
+  padding: "10px",
+  borderRadius: 3,
+  width: "240px",
+};
 
 const CustomLabelContent = (props: LabelProps) => {
   if (
@@ -53,19 +64,7 @@ const CustomTooltip = ({
                                  ${String(minutes).padStart(2, "0")}`;
 
     return (
-      <Box
-        className="custom-tooltip"
-        sx={{
-          position: "relative",
-          left: "-30px",
-          fontSize: "13px",
-          backgroundColor: "#7F7F7F",
-          color: "white",
-          padding: "10px",
-          borderRadius: 3,
-          width: "240px",
-        }}
-      >
+      <Box className="custom-tooltip" sx={bgTooltipSx}>
         <Box
           style={{
             display: "flex",

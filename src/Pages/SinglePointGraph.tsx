@@ -5,7 +5,6 @@ import DatePickerWithArrow from "@/Components/DatePickerWithArrows";
 import { Box, Button, Grid, IconButton } from "@mui/material";
 import {
   EachHourData,
-  FetchData,
   Obs,
   ObsForDataState,
   getHoursJson,
@@ -25,7 +24,7 @@ import {
   getObsCode,
   getYesterday,
 } from "@/modules/dateUtils";
-import { apiGet, getHeaders } from "@/modules/apiConnect";
+import { getClimateData } from "@/modules/apiConnect";
 import Chart from "@/Components/Chart";
 import { elemEnToJp, elemlist } from "@/modules/climateUtils";
 import {
@@ -36,7 +35,10 @@ import crossIcon from "@/assets/cross.svg";
 import useMedia from "@/hooks/useMedia";
 import CustomTooltip from "@/Components/CustomTooltip";
 
-const SinglePoint = () => {
+/**
+ * 1地点のグラフ画面
+ */
+const SinglePointGraph = () => {
   const [data, setData] = useRecoilState<ObsForDataState>(climateDataState);
   const [obs] = useRecoilState<Obs>(singlePageState);
   const [dates, setDates] = React.useState<Date[]>([getYesterday()]);
@@ -48,12 +50,15 @@ const SinglePoint = () => {
 
   const [datePickerDisabled, setDatePickerDisabled] =
     React.useState<boolean>(false);
+
+  // ページ(観測地点)切替り時の初期化
   React.useEffect(() => {
     setDates([getYesterday()]);
     setLeftElem("pc");
     setRightElem("");
   }, [obs]);
 
+  // 観測地点、日付が変更されたときのグラフデータ作成処理
   React.useEffect(() => {
     let graphData: EachHourData[] = getHoursJson();
     const newElems = new Set<string>();
@@ -75,27 +80,18 @@ const SinglePoint = () => {
     });
     setElems([...newElems]);
     setChartData(graphData);
-  }, [data, obs]);
+  }, [data, obs, dates]);
 
+  // 気象データをAPIから取得
+  const setClimateData = async (query: string) => {
+    setDatePickerDisabled(true);
+    const newData = await getClimateData(query);
+    setData({ ...data, ...newData });
+    setDatePickerDisabled(false);
+  };
+
+  // 持っていない気象データをAPIから取得
   React.useEffect(() => {
-    const getData = async (query: string) => {
-      const res = await apiGet(
-        "https://kako-ten.com/prod/past?obsDates=" + query,
-        // "https://d3btn854vtgb31.cloudfront.net/prod/past?obsDates=" + query,
-        getHeaders("u1DbqLqMcx3OvChTFiT3raFYpomNn1et9hZWnJzm")
-      );
-      if (res.statusCode === 200 && "body" in res && res.body) {
-        const newData: ObsForDataState = {};
-        Object.values(res.body as { [key: string]: FetchData }).map(
-          (value: FetchData) => {
-            const newKey = value.ob + value.dt;
-            newData[newKey] = value.data;
-          }
-        );
-        setData({ ...data, ...newData });
-        setDatePickerDisabled(false);
-      }
-    };
     let getDatalist: string = "";
     dates.map((d) => {
       if (!(obs.obsCode + dateToString(d) in data)) {
@@ -103,11 +99,11 @@ const SinglePoint = () => {
       }
     });
     if (getDatalist !== "") {
-      setDatePickerDisabled(true);
-      getData(getDatalist.slice(0, -1));
+      setClimateData(getDatalist.slice(0, -1));
     }
   }, [dates, obs]);
 
+  // 全ての日付をまとめてn移動させる
   const moveAllDates = (n: number) => {
     const newDates = dates.map((date) => {
       const newDate = new Date(date);
@@ -351,4 +347,4 @@ const SinglePoint = () => {
   );
 };
 
-export default SinglePoint;
+export default SinglePointGraph;

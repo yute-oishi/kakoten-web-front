@@ -5,6 +5,9 @@ import { useRecoilState } from "recoil";
 import { isSidebarOpenState } from "@/modules/atoms";
 import FeedIn from "@/Components/FeedIn";
 
+/**
+ * トップページ（説明画面）
+ */
 const Description = () => {
   const [_, setSideBarIsOpen] = useRecoilState<boolean>(isSidebarOpenState);
 
@@ -16,14 +19,14 @@ const Description = () => {
       </Box>
       <Box className="examples">
         <Box sx={{ color: "black", fontWeight: "bold" }}>
-          完全無料で過去の気候データを調べるサービスです。
+          完全無料で過去の気候データを調べることができるサービスです。
         </Box>
         <Box>{"　"}・過去の特定日の気象データを可視化したい。</Box>
-        <Box>{"　"}・太陽光、風力等の発電量の要因分析をしたい。</Box>
-        <Box>{"　"}・電気代が高かった日の気候の影響を調べたい。</Box>
-        <Box>{"　"}・想い出のあの日あの場所がどんな気候だったか。</Box>
+        <Box>{"　"}・太陽光、風力等の発電量を要因分析したい。</Box>
+        <Box>{"　"}・電気代が高かった日の気候の影響を調べる。</Box>
+        <Box>{"　"}・想い出のあの日、あの場所はどんな気候だったか。</Box>
         <Box sx={{ color: "black", fontWeight: "bold" }}>
-          こんなときにご利用いただけます！
+          そんなときにご利用いただけます！
         </Box>
       </Box>
       <Grid container spacing={5} sx={{ display: "flex", p: 3 }}>

@@ -18,7 +18,7 @@ import rightIcon from "@/assets/right.svg";
 import homeIcon from "@/assets/home.svg";
 
 import "./Sidebar.css";
-import SelectObs from "@/Pages/SelectObs";
+import SelectObsModal from "@/Pages/SelectObsModal";
 import { useRecoilState } from "recoil";
 import { Obs, Page } from "../modules/types";
 import {
@@ -27,10 +27,13 @@ import {
   singlePageState,
   isSidebarOpenState,
 } from "@/modules/atoms";
-import SelectMultiObs from "@/Pages/SelectMultiObs";
+import SelectMultiObsModal from "@/Pages/SelectMultiObsModal";
 import useMedia from "@/hooks/useMedia";
 import { getYesterday } from "@/modules/dateUtils";
 
+/**
+ * 画面左のサイドバー
+ */
 function Sidebar() {
   const [isSideBarOpen, setIsSideBarOpen] =
     useRecoilState<boolean>(isSidebarOpenState);
@@ -152,7 +155,7 @@ function Sidebar() {
 
   return (
     <div>
-      <SelectObs
+      <SelectObsModal
         open={singleModalOpen}
         setOpen={setSingleModalOpen}
         setObs={(obs: Obs) => {
@@ -162,7 +165,7 @@ function Sidebar() {
           setPage("single");
         }}
       />
-      <SelectMultiObs
+      <SelectMultiObsModal
         open={multiModalOpen}
         setOpen={setMultiModalOpen}
         handleFinish={(obss: Obs[]) => {
