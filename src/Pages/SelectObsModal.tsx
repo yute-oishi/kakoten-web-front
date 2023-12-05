@@ -295,7 +295,7 @@ const SelectObsModal = ({
           overflowY: "auto",
         }}
       >
-        <Box sx={{ mt: 2 }}>・ 主要観測所</Box>
+        <Box sx={{ mt: 2 }}>・ 主要地点</Box>
         {Object.entries(ObsCodeMain).map(([key, value]) => (
           <Button
             key={key}
@@ -342,7 +342,7 @@ const SelectObsModal = ({
             sx={{ color: "black", fontSize: 12, zIndex: 3 }}
           />
           <Tab
-            label="主要場所・履歴"
+            label="主要地点・履歴"
             sx={{ color: "black", fontSize: 12, zIndex: 3 }}
           />
         </Tabs>
