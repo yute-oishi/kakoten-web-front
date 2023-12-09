@@ -22,6 +22,7 @@ import { Grid, SxProps, Theme } from "@mui/material";
 import { EachHourData } from "@/modules/types";
 import { buttonColors } from "@/modules/styles";
 import useMedia from "@/hooks/useMedia";
+import loadingIcon from "@/assets/loading.svg";
 
 export const bgTooltipSx: SxProps<Theme> = {
   position: "relative",
@@ -113,15 +114,17 @@ const CustomTooltip = ({
 const Chart = ({
   data,
   leftKeys,
-  rightKeys,
-  leftLabel,
-  rightLabel,
+  rightKeys = new Set<string>(),
+  leftLabel = "",
+  rightLabel = "",
+  isLoading = false,
 }: {
   data: EachHourData[];
-  rightKeys: Set<string>;
   leftKeys: Set<string>;
+  rightKeys: Set<string>;
   leftLabel?: string;
   rightLabel?: string;
+  isLoading?: boolean;
 }) => {
   const [disabledKeys, setDisabledKeys] = React.useState<Set<string>>(
     new Set()
@@ -185,6 +188,18 @@ const Chart = ({
 
   return (
     <Box sx={{ fontSize: "14px", position: "relative", left: "-12px" }}>
+      {isLoading && (
+        <Box
+          sx={{
+            position: "relative",
+            top: "200px",
+            left: "10px",
+            textAlign: "center",
+          }}
+        >
+          <img src={loadingIcon} />
+        </Box>
+      )}
       <ResponsiveContainer width={isSmallScreen ? "105%" : "100%"} height={400}>
         <ComposedChart width={1000} height={400} data={displayedData}>
           <CartesianGrid stroke="#dddddd" vertical={false} />

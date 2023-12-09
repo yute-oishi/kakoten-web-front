@@ -46,6 +46,7 @@ const SinglePointGraph = () => {
   const [elems, setElems] = React.useState<string[]>([]);
   const [leftElem, setLeftElem] = React.useState<string>("pc");
   const [rightElem, setRightElem] = React.useState<string>("");
+  const [isGraphLoading, setIsGraphLoading] = React.useState<boolean>(false);
   const isSmallScreen = useMedia("(max-width: 600px)");
 
   const [datePickerDisabled, setDatePickerDisabled] =
@@ -85,8 +86,10 @@ const SinglePointGraph = () => {
   // 気象データをAPIから取得
   const setClimateData = async (query: string) => {
     setDatePickerDisabled(true);
+    setIsGraphLoading(true);
     const newData = await getClimateData(query);
     setData({ ...data, ...newData });
+    setIsGraphLoading(false);
     setDatePickerDisabled(false);
   };
 
@@ -270,6 +273,7 @@ const SinglePointGraph = () => {
         </CustomTooltip>
       </Box>
       <Chart
+        isLoading={isGraphLoading}
         data={chartData}
         leftKeys={
           new Set(

@@ -55,6 +55,7 @@ const MultiPointGraph = () => {
   const [rightElem, setRightElem] = React.useState<string>("");
   const [selectedObsCodes, setSelectedObsCodes] = React.useState<string[]>([]);
   const isSmallScreen = useMedia("(max-width: 600px)");
+  const [isGraphLoading, setIsGraphLoading] = React.useState<boolean>(false);
   const [datePickerDisabled, setDatePickerDisabled] =
     React.useState<boolean>(false);
   const [singleModalOpen, setSingleModalOpen] = React.useState<boolean>(false);
@@ -101,8 +102,10 @@ const MultiPointGraph = () => {
   // 気象データをAPIから取得
   const setClimateData = async (query: string) => {
     setDatePickerDisabled(true);
+    setIsGraphLoading(true);
     const newData = await getClimateData(query);
     setData({ ...data, ...newData });
+    setIsGraphLoading(false);
     setDatePickerDisabled(false);
   };
 
@@ -327,6 +330,7 @@ const MultiPointGraph = () => {
         </CustomTooltip>
       </Box>
       <Chart
+        isLoading={isGraphLoading}
         data={chartData}
         leftKeys={
           new Set(
