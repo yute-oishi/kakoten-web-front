@@ -192,8 +192,9 @@ const Chart = ({
         <Box
           sx={{
             position: "relative",
-            top: "200px",
+            top: "170px",
             left: "10px",
+            height: "0px",
             textAlign: "center",
           }}
         >
