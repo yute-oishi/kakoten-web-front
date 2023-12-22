@@ -278,6 +278,7 @@ const Chart = ({
                     type="monotone"
                     dataKey={dataKey.toString()}
                     stroke={buttonColors[index + 4]}
+                    strokeDasharray="5 5"
                   />
                 );
               }
