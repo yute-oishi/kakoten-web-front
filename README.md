@@ -18,3 +18,12 @@
   ]
 }
 ```
+
+### .env sample
+
+```
+VITE_BACKEND_API_KEY=***
+VITE_BACKEND_BASE_URL=https://kako-ten.com/prod
+VITE_RRCAPTCHA_SITEKEY=***
+VITE_AMEDAS_OBSLIST_URL=https://www.jma.go.jp/bosai/amedas/const/amedastable.json
+```
