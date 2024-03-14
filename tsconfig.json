@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["./*"]
     },
+    "types": ["node"],
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -24,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "custom.d.ts"],
+  "include": ["src", "custom.d.ts", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

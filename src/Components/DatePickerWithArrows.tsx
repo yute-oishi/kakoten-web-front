@@ -19,7 +19,7 @@ interface Props {
 }
 
 /**
- * 右左矢印付きの日付選択ボックス（電力量比較画面で使用）
+ * 右左矢印付きの日付選択ボックス
  * @param disableDates 選択不可とする日付の配列
  * @param initialDate 入力されている日付の初期値
  */
