@@ -17,7 +17,7 @@ declare module "@mui/material/styles" {
   }
 }
 
-let theme = createTheme({
+const theme = createTheme({
   typography: {
     fontFamily: "Noto Sans JP",
   },

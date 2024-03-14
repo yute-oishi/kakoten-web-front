@@ -61,7 +61,7 @@ const SinglePointGraph = () => {
 
   // 観測地点、日付が変更されたときのグラフデータ作成処理
   React.useEffect(() => {
-    let graphData: EachHourData[] = getHoursJson();
+    const graphData: EachHourData[] = getHoursJson();
     const newElems = new Set<string>();
     const dateStrings = dates.map((date) => dateToString(date));
     Object.entries(data).map(([key, value]) => {

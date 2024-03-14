@@ -6,8 +6,7 @@ on:
     branches: ["*"]
 
 jobs:
-  # 全ブランチでビルド
-  build-and-deploy:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -24,17 +23,9 @@ jobs:
           echo "VITE_BACKEND_BASE_URL=${{ secrets.BACKEND_BASE_URL }}" >> .env
           echo "VITE_RRCAPTCHA_SITEKEY=${{ secrets.RRCAPTCHA_SITEKEY }}" >> .env
           echo "VITE_AMEDAS_OBSLIST_URL=${{ secrets.AMEDAS_OBSLIST_URL }}" >> .env
+      - name: Run eslint
+        run: npm run lint
+      - name: Test by vitest
+        run: npm run coverage
       - name: Build React App
         run: npm run build
-      # mainの場合、デプロイもする
-      - name: Upload to S3
-        if: github.ref == 'refs/heads/main'
-        uses: jakejarvis/s3-sync-action@v0.5.0
-        with:
-          args: --exclude '.git/*' --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "ap-northeast-1"
-          SOURCE_DIR: "dist"

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi, describe, beforeEach } from "vitest";
-import { RecoilRoot, snapshot_UNSTABLE } from "recoil";
+import { RecoilRoot } from "recoil";
 import { historyState, obsListState } from "@/modules/atoms";
 import SelectObsModal from "@/Pages/SelectObsModal";
 import { RecoilObserver } from "@/../vitest.setup";
@@ -34,7 +34,7 @@ describe("SelectObsModal Page", () => {
     );
 
     const iconButtonElements = screen.getAllByRole("button");
-    let TokyoButton = iconButtonElements.find((b) =>
+    const TokyoButton = iconButtonElements.find((b) =>
       b.textContent?.includes("東京都")
     );
     fireEvent.click(TokyoButton as HTMLElement);

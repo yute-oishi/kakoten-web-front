@@ -24,7 +24,7 @@ import { buttonColors } from "@/modules/styles";
 import useMedia from "@/hooks/useMedia";
 import loadingIcon from "@/assets/loading.svg";
 
-export const bgTooltipSx: SxProps<Theme> = {
+const bgTooltipSx: SxProps<Theme> = {
   position: "relative",
   left: "-30px",
   fontSize: "13px",

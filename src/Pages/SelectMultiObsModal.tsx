@@ -65,7 +65,7 @@ const SelectMultiObsModal = ({
   // レスポンシブ対応
   const theme = useTheme();
   const style: SxProps<Theme> = {
-    position: "absolute" as "absolute",
+    position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",

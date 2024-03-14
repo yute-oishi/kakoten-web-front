@@ -24,7 +24,7 @@ describe("Description Page", () => {
     let snapShot = snapshot_UNSTABLE();
     expect(snapShot.getLoadable(isSidebarOpenState).getValue()).toBe(false);
     const iconButtonElements = screen.getAllByRole("button");
-    let startButton = iconButtonElements.find((b) =>
+    const startButton = iconButtonElements.find((b) =>
       b.textContent?.includes("今すぐ始める")
     );
     expect(startButton as HTMLElement).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe("Description Page", () => {
   test("Display main description page with start button", async () => {
     const iconButtonElements = screen.getAllByRole("button");
     expect(iconButtonElements.length).greaterThan(0);
-    let startButton = iconButtonElements.find((b) =>
+    const startButton = iconButtonElements.find((b) =>
       b.textContent?.includes("今すぐ始める")
     );
     expect(startButton as HTMLElement).toBeInTheDocument();
