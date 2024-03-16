@@ -58,7 +58,7 @@ describe("e2e tests", () => {
 
   it("view graph page", () => {
     // TodayのDateを固定化
-    cy.clock(Date.UTC(2024, 2, 16), ["Date"]);
+    cy.clock(new Date(2024, 2, 17), ["Date"]);
     cy.intercept("GET", Cypress.env("VITE_AMEDAS_OBSLIST_URL"), {
       fixture: "obs_list.json",
     }).as("getObsList");
@@ -78,7 +78,7 @@ describe("e2e tests", () => {
 
   it("graph page date change", () => {
     // 日付を変更してデータに反映されることを確認
-    cy.clock(Date.UTC(2024, 2, 16), ["Date"]);
+    cy.clock(new Date(2024, 2, 17), ["Date"]);
     cy.intercept("GET", Cypress.env("VITE_AMEDAS_OBSLIST_URL"), {
       fixture: "obs_list.json",
     }).as("getObsList");
@@ -103,7 +103,7 @@ describe("e2e tests", () => {
 
   it("graph page visibility change", () => {
     // 凡例ボタンを押すことで可視・不可視を切替可能なことを確認
-    cy.clock(Date.UTC(2024, 2, 16), ["Date"]);
+    cy.clock(new Date(2024, 2, 17), ["Date"]);
     cy.intercept("GET", Cypress.env("VITE_AMEDAS_OBSLIST_URL"), {
       fixture: "obs_list.json",
     }).as("getObsList");
