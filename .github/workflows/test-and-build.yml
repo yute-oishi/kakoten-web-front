@@ -32,8 +32,6 @@ jobs:
       - name: Cypress component test
         uses: cypress-io/github-action@v6
         with:
-          browser: chrome
-          start: npm run dev
           component: true
       - name: Cypress E2E test
         uses: cypress-io/github-action@v6
