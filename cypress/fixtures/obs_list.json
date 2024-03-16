@@ -1,0 +1,22 @@
+{
+  "11000": {
+    "type": "C",
+    "elems": "11112010",
+    "lat": [45, 31.2],
+    "lon": [141, 56.1],
+    "alt": 26,
+    "kjName": "テスト観測所1",
+    "knName": "テストカンソクジョ1",
+    "enName": "test observatory1"
+  },
+  "11001": {
+    "type": "C",
+    "elems": "11112010",
+    "lat": [45, 31.2],
+    "lon": [141, 56.1],
+    "alt": 26,
+    "kjName": "テスト観測所2",
+    "knName": "テストカンソクジョ2",
+    "enName": "test observatory2"
+  }
+}
