@@ -1,4 +1,42 @@
-### github actions 用 S3 自動デプロイ最小構成ポリシー
+### Build an environment
+
+```bash
+$ npm install
+
+$ npm run dev
+```
+
+### Test
+
+```bash
+# eslint
+$ npm run lint
+
+# vitest
+$ npm run test
+$ npm run coverage
+
+# cypress (window open)
+$ npm run cypress:open
+
+# cypress (component)
+$ npm run cypress:run
+
+# cypress (e2e)
+$ npm run cypress:run-e2e
+```
+
+### Build and Deploy
+
+```bash
+# build
+$ npm run build
+
+# deploy on S3
+$ aws s3 sync ./dist s3://BUCKET_NAME/ --delete
+```
+
+### minimum policy to deploy on s3 by github actions
 
 ```json
 {
@@ -13,7 +51,7 @@
         "s3:DeleteObject",
         "s3:ListBucket"
       ],
-      "Resource": ["arn:aws:s3:::{バケット名}/*", "arn:aws:s3:::{バケット名}"]
+      "Resource": ["arn:aws:s3:::{BUCKET_NAME}/*", "arn:aws:s3:::{BUCKET_NAME}"]
     }
   ]
 }
