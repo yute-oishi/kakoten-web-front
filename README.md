@@ -12,7 +12,7 @@ $ npm run dev
 # eslint
 $ npm run lint
 
-# run vitest
+# vitest
 $ npm run test
 $ npm run coverage
 
