@@ -32,11 +32,11 @@ $ npm run cypress:run-e2e
 # build
 $ npm run build
 
-# deploy on S3
+# deploy to S3
 $ aws s3 sync ./dist s3://BUCKET_NAME/ --delete
 ```
 
-### Minimum policy to deploy on s3 by github actions
+### Minimum policy for deploying to s3 by github actions
 
 ```json
 {
