@@ -36,7 +36,7 @@ $ npm run build
 $ aws s3 sync ./dist s3://BUCKET_NAME/ --delete
 ```
 
-### minimum policy to deploy on s3 by github actions
+### Minimum policy to deploy on s3 by github actions
 
 ```json
 {
